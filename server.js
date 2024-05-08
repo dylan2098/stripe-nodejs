@@ -77,4 +77,22 @@ app.post('/create-checkout-session', async (req, res) => {
   res.json({ id: session.id });
 });
 
+
+app.get('/refund/:chargeId', async (req, res) => {
+  const refund = await stripe.refunds.create({
+    charge: req.params.chargeId,
+  });
+
+  return res.json(refund);
+})
+
+app.get('/retrieve-payment-intent/:paymentIntentId', async (req, res) => {
+  
+  const paymentIntent = await stripe.paymentIntents.retrieve(
+    req.params.paymentIntentId
+  );
+
+  return res.json(paymentIntent);
+});
+
 app.listen(4242, () => console.log('Node server listening on port 4242!'));
